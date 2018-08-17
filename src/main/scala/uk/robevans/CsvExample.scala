@@ -3,13 +3,12 @@ package uk.robevans
 import java.io.File
 
 import org.apache.spark.rdd.RDD
-import org.apache.spark.sql.SparkSession
 
 import scala.io.Source._
 
-object CsvExample {
+object CsvExample extends DefaultSparkSession {
 
-  private var localFilePath: File = new File(ClassLoader.getSystemResource("test.csv").toURI())
+  private var inputFile: File = new File(ClassLoader.getSystemResource("test.csv").toURI())
   private var dfsDirPath: String = ClassLoader.getSystemResource("").toURI().toString()
 
   private def readFile(filename: String): List[String] = {
@@ -29,18 +28,8 @@ object CsvExample {
   }
 
   def main(args: Array[String]): Unit = {
-    val fileContents = readFile(localFilePath.toString())
+    val fileContents = readFile(inputFile.toString())
     val localWordCount = runLocalWordCount(fileContents)
-
-    println("Creating SparkSession")
-    val spark = SparkSession
-      .builder
-      .appName("DFS Read Write Test")
-      .config("spark.master", "local")
-      .config("spark.hadoop.validateOutputSpecs", "false")
-      .getOrCreate()
-
-
 
     println("Writing local file to DFS")
     val fileRDD: RDD[String] = spark.sparkContext.parallelize(fileContents)
