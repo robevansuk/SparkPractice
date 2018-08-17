@@ -1,12 +1,13 @@
-package uk.robevans
+package uk.robevans.practice
 
 import java.io.File
 
 import org.apache.spark.ml.classification.LogisticRegression
+import uk.robevans.DefaultSparkSession
 
-object ExampleLogisticRegression extends DefaultSparkSession {
+object LogisticRegressionExample extends DefaultSparkSession {
 
-  private var localFile: File = new File(ClassLoader.getSystemResource("data/mllib/sample_libsvm_data.txt").toURI())
+  private var localFile: File = new File(ClassLoader.getSystemResource("data/mllib/xor.txt").toURI())
   private var dfsDirPath: String = ClassLoader.getSystemResource("").toURI().toString()
 
   def main(args: Array[String]) = {

@@ -1,8 +1,9 @@
-package uk.robevans
+package uk.robevans.practice
 
 import java.io.File
 
 import org.apache.spark.rdd.RDD
+import uk.robevans.DefaultSparkSession
 
 import scala.io.Source._
 
