@@ -28,14 +28,7 @@ object CsvExample {
       .sum
   }
 
-  def overwriteAnyExistingFile(dfsFilename: String, fileRDD: RDD[String]) = {
-    val filePath = new File(dfsFilename).getAbsolutePath()
-    Runtime.getRuntime.exec(s"rm ${filePath}")
-    fileRDD.saveAsTextFile(dfsFilename)
-  }
-
   def main(args: Array[String]): Unit = {
-
     val fileContents = readFile(localFilePath.toString())
     val localWordCount = runLocalWordCount(fileContents)
 
@@ -44,12 +37,15 @@ object CsvExample {
       .builder
       .appName("DFS Read Write Test")
       .config("spark.master", "local")
+      .config("spark.hadoop.validateOutputSpecs", "false")
       .getOrCreate()
 
+
+
     println("Writing local file to DFS")
-    val dfsFilename = s"$dfsDirPath/dfs_read_write_test"
     val fileRDD: RDD[String] = spark.sparkContext.parallelize(fileContents)
-    overwriteAnyExistingFile(dfsFilename, fileRDD)
+    val dfsFilename = s"$dfsDirPath/dfs_read_write_test"
+    fileRDD.saveAsTextFile(dfsFilename)
 
     println("Reading file from DFS and running Word Count")
     val readFileRDD = spark.sparkContext.textFile(dfsFilename)
