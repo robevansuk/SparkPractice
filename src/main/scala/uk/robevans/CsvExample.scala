@@ -3,7 +3,7 @@ package uk.robevans
 import org.apache.spark.sql.{Dataset, SparkSession}
 import org.apache.spark.sql.types.StructType
 
-class CsvExample {
+object CsvExample {
 
   def main(args: Array[String]): Unit = {
 
