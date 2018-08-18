@@ -17,4 +17,6 @@ lazy val ApacheSpark = Seq(
   "org.apache.spark" %% "spark-mllib" % "2.3.1"
 )
 
-libraryDependencies ++= ApacheSpark
+lazy val TestLibs = Seq("org.scalatest"  %% "scalatest"       % "3.0.5")
+
+libraryDependencies ++= TestLibs ++ ApacheSpark
