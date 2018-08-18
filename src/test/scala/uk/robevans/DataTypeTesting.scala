@@ -2,8 +2,6 @@ package uk.robevans
 
 import org.apache.spark.ml.feature.LabeledPoint
 import org.apache.spark.ml.linalg.Vectors._
-import org.apache.spark.ml.linalg.{Matrices, Matrix}
-import org.apache.spark.mllib.linalg.distributed.RowMatrix
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.SparkSession
 import org.scalatest.{FunSpec, Matchers}
@@ -40,7 +38,7 @@ class DataTypeTesting extends FunSpec with Matchers {
     userDataForUserIdRob should be (1)
   }
 
-  it("Should be able to create a dataset from RDD") {
+  it("Should be able to create a dataset") {
     import spark.sqlContext.implicits._
 
     // create a *dataset* - this is typed and we can get compile time checking.
@@ -59,6 +57,10 @@ class DataTypeTesting extends FunSpec with Matchers {
     userDataForUserIdJohn should be (1)
   }
 
+  /**
+    * labelled data is used for supervised learning (we know the result we want)
+    * unlabelled data is used for unsupervised learning (the algorithm should do the work)
+    */
   it("Labelled points are used in supervised learning. We should be able to create them") {
     /**
       * We can rely on positively labelled points
